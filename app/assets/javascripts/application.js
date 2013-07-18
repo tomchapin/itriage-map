@@ -13,7 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require init
-//= require main_screen
+//= require static_pages
 //= require js_router
 
 // Initialize and run the appropriate javascript for our current controller/action
