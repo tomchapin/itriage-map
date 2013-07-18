@@ -12,4 +12,9 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require_tree .
+//= require init
+//= require main_screen
+//= require js_router
+
+// Initialize and run the appropriate javascript for our current controller/action
+$(document).ready(js_router.init);

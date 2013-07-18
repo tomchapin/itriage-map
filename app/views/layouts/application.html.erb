@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>ItriageMap</title>
+  <title>iTriage - Map of Doctors and Medical Facilities</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body data-controller="<%= controller_name %>" data-action="<%= action_name %>">
 
 <%= yield %>
 
