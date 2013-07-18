@@ -52,3 +52,6 @@ group :development, :test do
   gem "terminal-notifier-guard"
   gem "thin"
 end
+
+# Tell heroku which version of ruby we are running
+ruby '1.9.3'
