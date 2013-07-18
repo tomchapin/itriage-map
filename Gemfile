@@ -1,12 +1,14 @@
 source 'https://rubygems.org'
 
+# Tell heroku which version of ruby we are running
+ruby '1.9.3'
+
 gem 'rails', '3.2.13'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'pg'
-
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -29,7 +31,7 @@ gem 'jquery-rails'
 # gem 'jbuilder'
 
 # Use unicorn as the app server
-# gem 'unicorn'
+gem 'unicorn'
 
 # Deploy with Capistrano
 # gem 'capistrano'
@@ -39,6 +41,7 @@ gem 'jquery-rails'
 
 gem "oj"
 group :development, :test do
+  gem 'foreman'
   gem "factory_girl_rails", "~> 4.2.1"
   gem "guard", "~> 1.8.0"
   gem "guard-bundler", "~> 1.0.0"
@@ -50,8 +53,5 @@ group :development, :test do
   gem "rb-fsevent", :require => false
   gem "rspec-rails", "~> 2.0"
   gem "terminal-notifier-guard"
-  gem "thin"
 end
 
-# Tell heroku which version of ruby we are running
-ruby '1.9.3'
