@@ -1,8 +1,15 @@
 <!DOCTYPE html>
+<!--[if lte IE 7]> <html class="ie7"> <![endif]-->
+<!--[if IE 8]>     <html class="ie8"> <![endif]-->
+<!--[if IE 9]>     <html class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html>             <!--<![endif]-->
+<head>
 <html>
 <head>
   <title>iTriage - Map of Doctors and Medical Facilities</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>

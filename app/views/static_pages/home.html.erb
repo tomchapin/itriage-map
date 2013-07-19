@@ -1,1 +1,85 @@
-Home Page
+<header id="branding">
+  <img src="http://about.itriagehealth.com/wp-content/uploads/2012/10/itriage-logo1.png" alt="Medical Help Finder" id="logo" />
+</header>
+
+<section id="facility_finder">
+  <section id="search">
+    <h5>Find Medical Help Near You</h5>
+    <form id="search_form">
+
+      <section>
+        <label for="location" class="main">Showing availability within
+          <a href="#adv_search" class="inline"><span id="searchradius">15</span> miles</a> of:<br /><span id="searchloc"></span></label>
+        <input type="text" name="location" id="location" placeholder="Enter a new address or zipcode" /><input type="image" src="images/search.png" name="go" id="go" onclick="_gaq.push(['_trackEvent', 'Search Location', 'Location', this.form.location.value]);" />
+      </section>
+
+      <section>
+        <label for="vaccines" class="main">Physicians:</label>
+        <ul id="fluvax">
+          <li><input type="checkbox" name="vcs" value="1" class="vc" checked="checked" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'Flu Shot']);"/><label><a href="#tiv" class="inline">Flu Shot</a></label></li>
+          <li><input type="checkbox" name="vcs" value="4" class="vc" checked="checked" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'Intradermal Flu Shot']);" /><label><a href="#mic" class="inline">Intradermal Shot</a></label></li>
+          <li><input type="checkbox" name="vcs" value="2" class="vc" checked="checked" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'Nasal Spray']);" /><label><a href="#spr" class="inline">Nasal Spray</a></label></li>
+          <li><input type="checkbox" name="vcs" value="3" class="vc" checked="checked" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'High-dose Flu Shot']);" /><label><a href="#hig" class="inline">High-Dose Shot</a></label></li>
+        </ul>
+        <label for="vaccines" class="main">Medical Facilities:</label>
+        <ul id="allvax">
+          <li><input type="checkbox" name="vcs" value="5" class="vc" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'Hepatitis A']);"/><label><a href="#hepatitisa" class="inline">Hepatitis A</a></label></li>
+          <li><input type="checkbox" name="vcs" value="6" class="vc" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'Hepatitis B']);"/><label><a href="#hepatitisb" class="inline">Hepatitis B</a></label></li>
+          <li><input type="checkbox" name="vcs" value="7" class="vc" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'HPV']);"/><label><a href="#hpv" class="inline">HPV</a></label></li>
+          <li><input type="checkbox" name="vcs" value="9" class="vc" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'MMR']);"/><label><a href="#mmr" class="inline">MMR</a></label></li>
+          <li><input type="checkbox" name="vcs" value="11" class="vc" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'Zoster']);"/><label><a href="#zoster" class="inline">Zoster</a></label></li>
+          <li><input type="checkbox" name="vcs" value="13" class="vc" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'Tdap']);"/><label><a href="#tdap" class="inline">Tdap</a></label></li>
+          <li><input type="checkbox" name="vcs" value="12" class="vc" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'Td']);"/><label><a href="#td" class="inline">Td</a></label></li>
+          <li><input type="checkbox" name="vcs" value="8" class="vc" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'Meningococcal']);"/><label><a href="#meningococcal" class="inline">Meningococcal</a></label></li>
+          <li><input type="checkbox" name="vcs" value="10" class="vc" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'Pneumococcal']);"/><label><a href="#pneumococcal" class="inline">Pneumococcal</a></label></li>
+          <li><input type="checkbox" name="vcs" value="14" class="vc" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'Varicella']);"/><label><a href="#varicella" class="inline">Varicella</a></label></li>
+        </ul>
+      </section>
+
+    </form>
+  </section><!--search-->
+
+  <div class="hide">
+    <section id="adv_search">
+      <h1>Search Settings</h1>
+      <section id="radius">
+        <p>Search area:
+          <select id="search_radius">
+            <option>5</option>
+            <option>10</option>
+            <option selected>15</option>
+            <option>20</option>
+            <option>25</option>
+            <option>30</option>
+            <option>35</option>
+            <option>40</option>
+            <option>45</option>
+            <option>50</option>
+          </select> miles</p>
+      </section>
+    </section><!--adv_search-->
+  </div>
+
+  <div id="map_canvas">
+  </div>
+
+</section><!--facility_finder-->
+
+<section id="list_view">
+</section>
+<section id="close_list">
+  &#9650;
+</section>
+<section id="show_list">
+  &#9660;
+</section>
+
+<footer id="footer">
+  <div class="l">
+    <p>Powered by <!--iTriage--> <a class="nb" href="http://www.itriagehealth.com">iTriage</a></p>
+  </div>
+
+  <div class="r">
+    <p>Showing availability for  <strong>2,109</strong> locations.</p>
+  </div>
+</footer>

@@ -10,11 +10,14 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require jquery
-//= require jquery_ujs
+//= require utils/jquery.fancybox-1.3.4
+//= require utils/placeholder
+//= require utils/listpagination
 //= require init
 //= require static_pages
 //= require js_router
+//= require home_map.js
+//= require utils/infobox
 
 // Initialize and run the appropriate javascript for our current controller/action
 $(document).ready(js_router.init);
