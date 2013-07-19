@@ -14,25 +14,15 @@
       </section>
 
       <section>
-        <label for="vaccines" class="main">Physicians:</label>
-        <ul id="fluvax">
-          <li><input type="checkbox" name="vcs" value="1" class="vc" checked="checked" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'Flu Shot']);"/><label><a href="#tiv" class="inline">Flu Shot</a></label></li>
-          <li><input type="checkbox" name="vcs" value="4" class="vc" checked="checked" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'Intradermal Flu Shot']);" /><label><a href="#mic" class="inline">Intradermal Shot</a></label></li>
-          <li><input type="checkbox" name="vcs" value="2" class="vc" checked="checked" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'Nasal Spray']);" /><label><a href="#spr" class="inline">Nasal Spray</a></label></li>
-          <li><input type="checkbox" name="vcs" value="3" class="vc" checked="checked" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'High-dose Flu Shot']);" /><label><a href="#hig" class="inline">High-Dose Shot</a></label></li>
-        </ul>
-        <label for="vaccines" class="main">Medical Facilities:</label>
-        <ul id="allvax">
-          <li><input type="checkbox" name="vcs" value="5" class="vc" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'Hepatitis A']);"/><label><a href="#hepatitisa" class="inline">Hepatitis A</a></label></li>
-          <li><input type="checkbox" name="vcs" value="6" class="vc" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'Hepatitis B']);"/><label><a href="#hepatitisb" class="inline">Hepatitis B</a></label></li>
-          <li><input type="checkbox" name="vcs" value="7" class="vc" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'HPV']);"/><label><a href="#hpv" class="inline">HPV</a></label></li>
-          <li><input type="checkbox" name="vcs" value="9" class="vc" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'MMR']);"/><label><a href="#mmr" class="inline">MMR</a></label></li>
-          <li><input type="checkbox" name="vcs" value="11" class="vc" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'Zoster']);"/><label><a href="#zoster" class="inline">Zoster</a></label></li>
-          <li><input type="checkbox" name="vcs" value="13" class="vc" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'Tdap']);"/><label><a href="#tdap" class="inline">Tdap</a></label></li>
-          <li><input type="checkbox" name="vcs" value="12" class="vc" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'Td']);"/><label><a href="#td" class="inline">Td</a></label></li>
-          <li><input type="checkbox" name="vcs" value="8" class="vc" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'Meningococcal']);"/><label><a href="#meningococcal" class="inline">Meningococcal</a></label></li>
-          <li><input type="checkbox" name="vcs" value="10" class="vc" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'Pneumococcal']);"/><label><a href="#pneumococcal" class="inline">Pneumococcal</a></label></li>
-          <li><input type="checkbox" name="vcs" value="14" class="vc" onclick="_gaq.push(['_trackEvent', 'Search Vaccine', 'Varicella']);"/><label><a href="#varicella" class="inline">Varicella</a></label></li>
+        <label for="medical-facilities" class="main">Medical Facilities:</label>
+        <ul id="allmf">
+          <li><input type="checkbox" name="mfs" value="1" class="vc" onclick="_gaq.push(['_trackEvent', 'Search', 'Emergency Department']);"/><label><a href="#emergency-department" class="inline">Emergency Department</a></label></li>
+          <li><input type="checkbox" name="mfs" value="2" class="vc" onclick="_gaq.push(['_trackEvent', 'Search', 'Urgent Care']);"/><label><a href="#urgent-care" class="inline">Urgent Care</a></label></li>
+          <li><input type="checkbox" name="mfs" value="3" class="vc" onclick="_gaq.push(['_trackEvent', 'Search', 'Retail Clinic']);"/><label><a href="#retail-clinic" class="inline">Retail Clinic</a></label></li>
+          <li><input type="checkbox" name="mfs" value="5" class="vc" onclick="_gaq.push(['_trackEvent', 'Search', 'Pharmacy']);"/><label><a href="#pharmacy" class="inline">Pharmacy</a></label></li>
+          <li><input type="checkbox" name="mfs" value="7" class="vc" onclick="_gaq.push(['_trackEvent', 'Search', 'Outpatient Clinic']);"/><label><a href="#outpatient-clinic" class="inline">Outpatient Clinic</a></label></li>
+          <li><input type="checkbox" name="mfs" value="12" class="vc" onclick="_gaq.push(['_trackEvent', 'Search', 'Home Health Care']);"/><label><a href="#home-health-care" class="inline">Home Health Care</a></label></li>
+          <li><input type="checkbox" name="mfs" value="6" class="vc" onclick="_gaq.push(['_trackEvent', 'Search', 'Community Health Centers']);"/><label><a href="#community-health-centers" class="inline">Community Health Centers</a></label></li>
         </ul>
       </section>
 
@@ -80,6 +70,6 @@
   </div>
 
   <div class="r">
-    <p>Showing availability for  <strong>2,109</strong> locations.</p>
+    <p>Showing availability for <strong>40,000+</strong> locations.</p>
   </div>
 </footer>

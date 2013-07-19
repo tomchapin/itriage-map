@@ -34,7 +34,7 @@ var us_lat = 36;
 var us_lon = -97;
 var locname;
 var input_address;
-var vaccines = '1,2,3,4';
+var medical_facilities = '1,2,3,4';
 var radius;
 var default_zoom = 3;
 
@@ -75,155 +75,7 @@ var vf = [
         { "color": "#808080" },
         { "visibility": "off" }
     ]}
-]
-
-$(function () {
-
-    latlon = new google.maps.LatLng(us_lat, us_lon);
-    myOptions = { center: latlon, zoom: default_zoom, streetViewControl: false, mapTypeControl: false, panControl: false, zoomControlOptions: {
-        style: google.maps.ZoomControlStyle.SMALL,
-        position: google.maps.ControlPosition.TOP_RIGHT
-    }, mapTypeId: google.maps.MapTypeId.ROADMAP, mapTypeId: 'Styled' };
-    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-    var styledMapType = new google.maps.StyledMapType(vf, { name: 'Styled' });
-    map.mapTypes.set('Styled', styledMapType);
-    default_lat = '';
-    default_lon = '';
-    locname = '';
-    input_address = '';
-
-    if (input_address) { // came in through query string
-        google_geo(input_address);
-    } else if (default_lat && default_lon) {  // came in through cookie
-        if (locname) {
-            serve_map(default_lat, default_lon, locname);
-        } else {
-            google_geo_by_ll(default_lat, default_lon);
-        }
-    } else { // if we don't have a user location, need to keep trying
-        w3c_geolocate();
-    }
-    $('#search_form').submit(function () {
-        google_geo($('#location').val());
-        return false;
-    });
-    $('#search_radius').change(function () {
-        radius = $(this).val();
-        $.fancybox.close();
-        serve_map(lat, lon, locname);
-        $('#searchradius').text(radius);
-
-    });
-
-    // search input placeholder
-    $('#location').placeHolder();
-
-    // fancybox
-    $("a.inline_hide").fancybox({
-        'hideOnContentClick': true,
-        'autoDimensions': true,
-        'overlayColor': '#000',
-        'overlayOpacity': 0.4,
-        'padding': 0,
-        'type': 'inline'
-    });
-    $("a.inline").fancybox({
-        'hideOnContentClick': false,
-        'autoDimensions': true,
-        'overlayColor': '#000',
-        'padding': 0,
-        'overlayOpacity': 0.4,
-        'type': 'inline'
-    });
-    $("a.iframe").fancybox({
-        'hideOnContentClick': false,
-        'width': 740,
-        'height': 545,
-        'overlayColor': '#000',
-        'padding': 0,
-        'overlayOpacity': 0.4,
-        'type': 'iframe'
-    });
-    $("a.iframeauto").fancybox({
-        'hideOnContentClick': false,
-        'width': 740,
-        'overlayColor': '#000',
-        'padding': 0,
-        'overlayOpacity': 0.4,
-        'type': 'iframe'
-    });
-
-    // checkboxes
-    $(".vc").click(function () {
-        // first make sure at least one is checked
-        if ($("input:checkbox[name=vcs]:checked").length == 0) {
-            alert("You must have at least one vaccine option selected.");
-            return false;
-        }
-        // get all checked vaccines to update the query
-        vaccines = "";
-        $("input:checkbox[name=vcs]:checked").each(function () {
-            if (vaccines) {
-                vaccines += ",";
-            }
-            vaccines += $(this).val();
-        });
-        serve_map(lat, lon, locname, '', 'true');
-    });
-
-    $("#hmalert").click(function () {
-        var visibility = $("#hmalert:checked").length > 0 ? true : false;
-        // need to zoom out to country level to see HealthMap markers
-        if (visibility) {
-            if (map.getZoom() > default_zoom) {
-                record_lat = map.getCenter().lat();
-                record_lon = map.getCenter().lng();
-                record_zoom = map.getZoom();
-                latlon = new google.maps.LatLng(us_lat, us_lon);
-                map.setCenter(latlon);
-                map.setZoom(default_zoom);
-            }
-        } else if (record_lat) { // zoom back in
-            latlon = new google.maps.LatLng(record_lat, record_lon);
-            map.setCenter(latlon);
-            map.setZoom(record_zoom);
-            record_lat;
-            record_lon;
-            record_zoom;
-        }
-        if (hm_marker_arr.length > 0) {
-            for (var m = 0; m < hm_marker_arr.length; m++) {
-                hm_marker_arr[m].setVisible(visibility);
-            }
-            return;
-        }
-        var hm_pin = new google.maps.MarkerImage('images/pins/hm.png', new google.maps.Size(17, 18), new google.maps.Point(0, 0), new google.maps.Point(0, 18));
-        $.ajax({url: 'hm.php', dataType: 'json',
-            success: function (resp) {
-                $.each(resp, function (index, value) {
-                    var wincontent = '';
-                    $.each(value.alerts, function (ind2, val2) {
-                        if (wincontent) {
-                            wincontent += '</p><p>';
-                        } else {
-                            wincontent = '<div class="boxtext"><p>';
-                        }
-                        var formatted_date = val2.date;
-                        var datesplit = formatted_date.split(" ");
-                        wincontent += datesplit[0] + ': <a href="' + val2.link + '" target="_new">' + val2.summary + '</a> ' + val2.disease;
-                    });
-                    var myLatLng = new google.maps.LatLng(value.lat, value.lng);
-                    var marker = new google.maps.Marker({ position: myLatLng, map: map, shadow: shadow, icon: hm_pin, title: value.place_name });
-                    infowindow = new google.maps.InfoWindow();
-                    hmMarkerHandler(marker, wincontent);
-                    hm_marker_arr.push(marker);
-                });
-                return false;
-            }
-        });
-    });
-
-});
+];
 
 // Geo-location functions
 // this is for Firefox mainly - if we get to w3c geolocation and permission
@@ -335,13 +187,13 @@ function serve_map(showlat, showlon, showaddr, searchstr, updatemarkers, zip) {
             query['lon'] = lon;
             query['locname'] = showaddr;
         }
-        query['vaccines'] = vaccines;
+        query['medical_facilities'] = medical_facilities;
         query['radius'] = radius;
         query['zip'] = zip; // this is just for the cookie
         $.ajax({url: 'getMarkers.php', dataType: 'json', data: query,
             success: function (jsonData) {
                 clear_markers();
-                // for changing vaccine selections, don't need to recenter or rezoom map
+                // for changing medical_facility selections, don't need to recenter or rezoom map
                 if (!updatemarkers) {
                     latlon = new google.maps.LatLng(jsonData['lat'], jsonData['lon']);
                     map.setCenter(latlon);
@@ -370,7 +222,7 @@ function serve_map(showlat, showlon, showaddr, searchstr, updatemarkers, zip) {
                     marker_arr[id] = marker;
                     getInfoWindowEvent(marker, id);
                 }
-                listview = listview ? '<ul>' + listview + '</ul><span class="nt">You can also contact your physician for vaccination.</span>' : 'No Results';
+                listview = listview ? '<ul>' + listview + '</ul><span class="nt">You can also contact your physician.</span>' : 'No Results';
                 $('#list_view').html(listview);
                 $("#list_view ul").quickPagination({pageSize: 4});
                 if (listview == "No Results") {
@@ -492,3 +344,100 @@ function closeInfoboxes() {
         }
     }
 }
+
+// Initialize
+$(function () {
+
+    latlon = new google.maps.LatLng(us_lat, us_lon);
+    myOptions = { center: latlon, zoom: default_zoom, streetViewControl: false, mapTypeControl: false, panControl: false, zoomControlOptions: {
+        style: google.maps.ZoomControlStyle.SMALL,
+        position: google.maps.ControlPosition.TOP_RIGHT
+    }, mapTypeId: google.maps.MapTypeId.ROADMAP, mapTypeId: 'Styled' };
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    var styledMapType = new google.maps.StyledMapType(vf, { name: 'Styled' });
+    map.mapTypes.set('Styled', styledMapType);
+    default_lat = '';
+    default_lon = '';
+    locname = '';
+    input_address = '';
+
+    if (input_address) { // came in through query string
+        google_geo(input_address);
+    } else if (default_lat && default_lon) {  // came in through cookie
+        if (locname) {
+            serve_map(default_lat, default_lon, locname);
+        } else {
+            google_geo_by_ll(default_lat, default_lon);
+        }
+    } else { // if we don't have a user location, need to keep trying
+        w3c_geolocate();
+    }
+    $('#search_form').submit(function () {
+        google_geo($('#location').val());
+        return false;
+    });
+    $('#search_radius').change(function () {
+        radius = $(this).val();
+        $.fancybox.close();
+        serve_map(lat, lon, locname);
+        $('#searchradius').text(radius);
+
+    });
+
+    // search input placeholder
+    $('#location').placeHolder();
+
+    // fancybox
+    $("a.inline_hide").fancybox({
+        'hideOnContentClick': true,
+        'autoDimensions': true,
+        'overlayColor': '#000',
+        'overlayOpacity': 0.4,
+        'padding': 0,
+        'type': 'inline'
+    });
+    $("a.inline").fancybox({
+        'hideOnContentClick': false,
+        'autoDimensions': true,
+        'overlayColor': '#000',
+        'padding': 0,
+        'overlayOpacity': 0.4,
+        'type': 'inline'
+    });
+    $("a.iframe").fancybox({
+        'hideOnContentClick': false,
+        'width': 740,
+        'height': 545,
+        'overlayColor': '#000',
+        'padding': 0,
+        'overlayOpacity': 0.4,
+        'type': 'iframe'
+    });
+    $("a.iframeauto").fancybox({
+        'hideOnContentClick': false,
+        'width': 740,
+        'overlayColor': '#000',
+        'padding': 0,
+        'overlayOpacity': 0.4,
+        'type': 'iframe'
+    });
+
+    // checkboxes
+    $(".vc").click(function () {
+        // first make sure at least one is checked
+        if ($("input:checkbox[name=mfs]:checked").length == 0) {
+            alert("You must have at least one medical_facility option selected.");
+            return false;
+        }
+        // get all checked medical_facilities to update the query
+        medical_facilities = "";
+        $("input:checkbox[name=mfs]:checked").each(function () {
+            if (medical_facilities) {
+                medical_facilities += ",";
+            }
+            medical_facilities += $(this).val();
+        });
+        serve_map(lat, lon, locname, '', 'true');
+    });
+
+});

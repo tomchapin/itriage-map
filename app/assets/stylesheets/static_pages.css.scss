@@ -529,10 +529,11 @@ select:focus, select:hover, select:active, #search input:focus, #search input:ho
   padding: 22px 10px 21px 10px;
 }
 
-#search_form section ul#allvax, #search_form section ul#fluvax
+#search_form section ul#allmf, #search_form section ul#fluvax
 {
   float: left;
   margin: 11px 0 0 0;
+  font-size: 12px;
 }
 
 #search_form section ul#fluvax
@@ -1236,67 +1237,67 @@ hr
 
 /* TRACKER
 ------------------------------------*/
-#vaccine_tracker header {
+#medical_facility_tracker header {
   background-color: transparent;
 }
 
-#vaccine_tracker nav a {
+#medical_facility_tracker nav a {
   border: 0px;
 }
 
-#vaccine_tracker table {
+#medical_facility_tracker table {
   margin: 0 auto;
   margin: 30px 0;
   border: 1px solid #aaa;
 }
 
-#vaccine_tracker table thead {
+#medical_facility_tracker table thead {
   background-color: #efefef;
   font-family: MuseoSlab-300, sans-serif;
 }
 
-#vaccine_tracker table td, #vaccine_tracker table th:last-child {
+#medical_facility_tracker table td, #medical_facility_tracker table th:last-child {
   padding: 5px 10px;
   border-right: 1px solid #aaa;
 }
 
-#vaccine_tracker table th {
+#medical_facility_tracker table th {
   padding: 5px 10px;
   border-right: 1px solid #aaa;
 }
 
-#vaccine_tracker table tr {
+#medical_facility_tracker table tr {
   border-bottom: 1px solid #aaa;
 }
 
-#vaccine_tracker tr td img {
+#medical_facility_tracker tr td img {
   float: right;
   display: block;
 }
 
-#vaccine_tracker tr td:first-child {
+#medical_facility_tracker tr td:first-child {
   width: 180px;
 }
 
-#vaccine_tracker nav li {
+#medical_facility_tracker nav li {
   display: inline;
   border-right: 1px solid #999;
   padding: 0 10px;
 }
 
-#vaccine_tracker nav li:last-child {
+#medical_facility_tracker nav li:last-child {
   border-right: 0px;
 }
 
-#vaccine_tracker nav li:first-child {
+#medical_facility_tracker nav li:first-child {
   padding-left: 0px;
 }
 
-#vaccine_tracker nav li.active {
+#medical_facility_tracker nav li.active {
   color: #dc1a22;
 }
 
-#vaccine_tracker nav {
+#medical_facility_tracker nav {
   margin: 20px 0;
 }
 
@@ -1329,7 +1330,7 @@ hr
   font-family: MuseoSlab-300, sans-serif;
 }
 
-#vaccine_tracker
+#medical_facility_tracker
 {
   float: left;
   width: 100%;
