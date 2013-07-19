@@ -16,13 +16,13 @@
       <section>
         <label for="medical-facilities" class="main">Medical Facilities:</label>
         <ul id="allmf">
-          <li><input type="checkbox" name="mfs" value="1" class="vc" onclick="_gaq.push(['_trackEvent', 'Search', 'Emergency Department']);"/><label><a href="#emergency-department" class="inline">Emergency Department</a></label></li>
-          <li><input type="checkbox" name="mfs" value="2" class="vc" onclick="_gaq.push(['_trackEvent', 'Search', 'Urgent Care']);"/><label><a href="#urgent-care" class="inline">Urgent Care</a></label></li>
-          <li><input type="checkbox" name="mfs" value="3" class="vc" onclick="_gaq.push(['_trackEvent', 'Search', 'Retail Clinic']);"/><label><a href="#retail-clinic" class="inline">Retail Clinic</a></label></li>
-          <li><input type="checkbox" name="mfs" value="5" class="vc" onclick="_gaq.push(['_trackEvent', 'Search', 'Pharmacy']);"/><label><a href="#pharmacy" class="inline">Pharmacy</a></label></li>
-          <li><input type="checkbox" name="mfs" value="7" class="vc" onclick="_gaq.push(['_trackEvent', 'Search', 'Outpatient Clinic']);"/><label><a href="#outpatient-clinic" class="inline">Outpatient Clinic</a></label></li>
-          <li><input type="checkbox" name="mfs" value="12" class="vc" onclick="_gaq.push(['_trackEvent', 'Search', 'Home Health Care']);"/><label><a href="#home-health-care" class="inline">Home Health Care</a></label></li>
-          <li><input type="checkbox" name="mfs" value="6" class="vc" onclick="_gaq.push(['_trackEvent', 'Search', 'Community Health Centers']);"/><label><a href="#community-health-centers" class="inline">Community Health Centers</a></label></li>
+          <li><input type="radio" name="mfs" value="1" class="vc" id="radio-emergency-department" checked="checked" /><label for="radio-emergency-department">Emergency Department</label></li>
+          <li><input type="radio" name="mfs" value="2" class="vc" id="radio-urgent-care" /><label for="radio-urgent-care">Urgent Care</label></li>
+          <li><input type="radio" name="mfs" value="3" class="vc" id="radio-retail-clinic" /><label for="radio-retail-clinic">Retail Clinic</label></li>
+          <li><input type="radio" name="mfs" value="5" class="vc" id="radio-pharmacy" /><label for="radio-pharmacy">Pharmacy</label></li>
+          <li><input type="radio" name="mfs" value="7" class="vc" id="radio-outpatient-clinic" /><label for="radio-outpatient-clinic">Outpatient Clinic</label></li>
+          <li><input type="radio" name="mfs" value="12" class="vc" id="radio-home-health-care" /><label for="radio-home-health-care">Home Health Care</label></li>
+          <li><input type="radio" name="mfs" value="6" class="vc" id="radio-community-health-centers" /><label for="radio-community-health-centers">Community Health Centers</label></li>
         </ul>
       </section>
 
@@ -50,19 +50,19 @@
     </section><!--adv_search-->
   </div>
 
+  <section id="list_view">
+  </section>
+  <section id="close_list">
+    &#9650;
+  </section>
+  <section id="show_list">
+    &#9660;
+  </section>
+
   <div id="map_canvas">
   </div>
 
 </section><!--facility_finder-->
-
-<section id="list_view">
-</section>
-<section id="close_list">
-  &#9650;
-</section>
-<section id="show_list">
-  &#9660;
-</section>
 
 <footer id="footer">
   <div class="l">

@@ -34,9 +34,14 @@ var us_lat = 36;
 var us_lon = -97;
 var locname;
 var input_address;
-var medical_facilities = '1,2,3,4';
+var search_model = 'medical_facilities';
+var search_by = 'distance';
+var medical_facility_categories = '1';
+var per_page = '50';
 var radius;
 var default_zoom = 3;
+var query_results;
+var map_data;
 
 // Map Styles
 var vf = [
@@ -180,93 +185,126 @@ function serve_map(showlat, showlon, showaddr, searchstr, updatemarkers, zip) {
         }
         // get the markers around that lat/lon OR for the searchstr
         var query = Object();
-        if (searchstr) {
-            query['searchstr'] = searchstr;
-        } else {
-            query['lat'] = lat;
-            query['lon'] = lon;
-            query['locname'] = showaddr;
-        }
-        query['medical_facilities'] = medical_facilities;
-        query['radius'] = radius;
-        query['zip'] = zip; // this is just for the cookie
-        $.ajax({url: 'getMarkers.php', dataType: 'json', data: query,
+        // if (searchstr) {
+        //     query['searchstr'] = searchstr;
+        // } else {
+        //     query['lat'] = lat;
+        //     query['lon'] = lon;
+        //     query['locname'] = showaddr;
+        // }
+        query['search_model'] = search_model;
+        query['lat'] = lat;
+        query['lon'] = lon;
+        query['distance'] = radius;
+        query['per_page'] = per_page;
+        query['search_by'] = search_by;
+        query['medical_facility_categories'] = medical_facility_categories;
+        // query['zip'] = zip; // this is just for the cookie
+        //$.ajax({url: 'getMarkers.php', dataType: 'json', data: query,
+        $.ajax({url: 'https://api.itriagehealth.com/api/v1/medical_providers.json', dataType: 'jsonp', data: query,
+
             success: function (jsonData) {
-                clear_markers();
-                // for changing medical_facility selections, don't need to recenter or rezoom map
-                if (!updatemarkers) {
-                    latlon = new google.maps.LatLng(jsonData['lat'], jsonData['lon']);
-                    map.setCenter(latlon);
-                    zoom = parseInt(jsonData['zoom']);
-                    map.setZoom(zoom);
-                    // you are here icon
-                    if (typeof(yah) == "undefined") {
-                        var you_icon = new google.maps.MarkerImage('images/you.png', new google.maps.Size(24, 20), new google.maps.Point(0, 0), new google.maps.Point(0, 20));
-                        yah = new google.maps.Marker({ position: latlon, map: map, icon: you_icon, zIndex: 1, title: 'You are here' });
-                    } else {
-                        yah.setPosition(latlon);
+
+                if (jsonData['results'] && jsonData['results'].length > 0){
+                    query_results = jsonData['results'];
+                    map_data = {
+                        "lat": "39.6439276",
+                        "lon": "-104.89800580000002",
+                        "locname": "Denver, CO 80237, USA",
+                        "zoom": default_zoom,
+                        "markers": []
+                    };
+
+                    for(var i = 0; i < query_results.length; i++){
+                        map_data.markers.push({
+                            "lat": query_results[i].lat,
+                            "lon": query_results[i].lng,
+                            "html_side": query_results[i].street + "<BR>" + query_results[i].street_2 ,
+                            "html_marker": '<strong>'+query_results[i].name+'<\/strong><br \/>' + query_results[i].street + ((query_results[i].street_2) ? '<br />' + query_results[i].street_2 : '') + '<br \/>' + query_results[i].city + ', ' + query_results[i].state + ' ' + query_results[i].zip + ' <br \/>' + query_results[i].phone + '<a class="viewonmap" href="http:\/\/maps.google.com\/?q='+query_results[i].name+',+'+query_results[i].street+',+'+query_results[i].city+',+'+query_results[i].zip+'" target="_blank">View on Map<\/a>',
+                            "provider": query_results[i].name,
+                            "id": i+1,
+                            "label": query_results[i].name
+                        });
                     }
-                }
-                var listview = "";
-                var pin;
-                for (var i = 0; i < jsonData.markers.length; i++) {
-                    latlon = new google.maps.LatLng(jsonData.markers[i].lat, jsonData.markers[i].lon);
-                    label = jsonData.markers[i].label;
-                    id = jsonData.markers[i].id;
-                    pin = new google.maps.MarkerImage('images/pins/' + id + '.png', new google.maps.Size(32, 32), new google.maps.Point(0, 0), new google.maps.Point(0, 32));
-                    contents[id] = jsonData.markers[i].html_marker;
-                    var provider_name = jsonData.markers[i].provider;
-                    var pname = provider_name.replace("'", "");
-                    listview += '<li><div class="marker"><img src="images/pins/list_view/' + id + '.png" /></div><div class="text"><a href="javascript:om(' + id + ',\'' + pname + '\');"><strong>' + jsonData.markers[i].provider + '</strong></a><br />' + jsonData.markers[i].html_side + '</div></li>';
-                    marker = new google.maps.Marker({ position: latlon, map: map, title: label, shadow: shadow, icon: pin });
-                    marker_arr[id] = marker;
-                    getInfoWindowEvent(marker, id);
-                }
-                listview = listview ? '<ul>' + listview + '</ul><span class="nt">You can also contact your physician.</span>' : 'No Results';
-                $('#list_view').html(listview);
-                $("#list_view ul").quickPagination({pageSize: 4});
-                if (listview == "No Results") {
-                    $("#list_view").removeClass("showlist");
-                    $("#list_view").addClass("hidelist");
-                    $("#map_canvas").css("left", "0px");
-                    google.maps.event.trigger(map, 'resize');
-                    map.setZoom(map.getZoom());
-                    $('#close_list').click(function () {
-                        $('#list_view').slideUp(250);
-                        $('#close_list').hide();
-                        $('#show_list').fadeIn(300);
+
+                    clear_markers();
+                    // for changing medical_facility selections, don't need to recenter or rezoom map
+                    if (!updatemarkers) {
+                        latlon = new google.maps.LatLng(map_data['lat'], map_data['lon']);
+                        map.setCenter(latlon);
+                        zoom = parseInt(map_data['zoom']);
+                        map.setZoom(zoom);
+                        // you are here icon
+                        if (typeof(yah) == "undefined") {
+                            var you_icon = new google.maps.MarkerImage('images/you.png', new google.maps.Size(24, 20), new google.maps.Point(0, 0), new google.maps.Point(0, 20));
+                            yah = new google.maps.Marker({ position: latlon, map: map, icon: you_icon, zIndex: 1, title: 'You are here' });
+                        } else {
+                            yah.setPosition(latlon);
+                        }
+                    }
+                    var listview = "";
+                    var pin;
+                    for (var i = 0; i < map_data.markers.length; i++) {
+                        latlon = new google.maps.LatLng(map_data.markers[i].lat, map_data.markers[i].lon);
+                        label = map_data.markers[i].label;
+                        id = map_data.markers[i].id;
+                        pin = new google.maps.MarkerImage('images/pins/' + id + '.png', new google.maps.Size(32, 32), new google.maps.Point(0, 0), new google.maps.Point(0, 32));
+                        contents[id] = map_data.markers[i].html_marker;
+                        var provider_name = map_data.markers[i].provider;
+                        var pname = provider_name.replace("'", "");
+                        listview += '<li><div class="marker"><img src="images/pins/list_view/' + id + '.png" /></div><div class="text"><a href="javascript:om(' + id + ',\'' + pname + '\');"><strong>' + map_data.markers[i].provider + '</strong></a><br />' + map_data.markers[i].html_side + '</div></li>';
+                        marker = new google.maps.Marker({ position: latlon, map: map, title: label, shadow: shadow, icon: pin });
+                        marker_arr[id] = marker;
+                        getInfoWindowEvent(marker, id);
+                    }
+                    listview = listview ? '<ul>' + listview + '</ul><span class="nt">You can also contact your physician.</span>' : 'No Results';
+                    $('#list_view').html(listview);
+                    $("#list_view ul").quickPagination({pageSize: 4});
+                    if (listview == "No Results") {
+                        $("#list_view").removeClass("showlist");
+                        $("#list_view").addClass("hidelist");
                         $("#map_canvas").css("left", "0px");
-                    });
-                    $('#show_list').click(function () {
-                        $('#show_list').hide();
-                        $('#list_view').slideDown(250);
-                        $('#close_list').fadeIn(500);
-                        $("#map_canvas").css("left", "0px");
-                    });
-                }
-                if (listview != "No Results") {
-                    $("#list_view").removeClass("hidelist");
-                    $("#list_view").addClass("showlist");
-                    $("#map_canvas").css("left", "250px");
-                    $('#show_list').hide();
-                    $('#list_view').slideDown(250);
-                    $('#close_list').fadeIn(500);
-                    $('#close_list').click(function () {
-                        $('#list_view').slideUp(250);
-                        $('#close_list').hide();
-                        $('#show_list').fadeIn(300);
-                        $("#map_canvas").css({'left': '0px'});
                         google.maps.event.trigger(map, 'resize');
                         map.setZoom(map.getZoom());
-                    });
-                    $('#show_list').click(function () {
+                        $('#close_list').click(function () {
+                            $('#list_view').slideUp(250);
+                            $('#close_list').hide();
+                            $('#show_list').fadeIn(300);
+                            $("#map_canvas").css("left", "0px");
+                        });
+                        $('#show_list').click(function () {
+                            $('#show_list').hide();
+                            $('#list_view').slideDown(250);
+                            $('#close_list').fadeIn(500);
+                            $("#map_canvas").css("left", "0px");
+                        });
+                    }
+                    if (listview != "No Results") {
+                        $("#list_view").removeClass("hidelist");
+                        $("#list_view").addClass("showlist");
+                        $("#map_canvas").css("left", "250px");
                         $('#show_list').hide();
                         $('#list_view').slideDown(250);
                         $('#close_list').fadeIn(500);
-                        $("#map_canvas").css("left", "250px");
-                    });
+                        $('#close_list').click(function () {
+                            $('#list_view').slideUp(250);
+                            $('#close_list').hide();
+                            $('#show_list').fadeIn(300);
+                            $("#map_canvas").css({'left': '0px'});
+                            google.maps.event.trigger(map, 'resize');
+                            map.setZoom(map.getZoom());
+                        });
+                        $('#show_list').click(function () {
+                            $('#show_list').hide();
+                            $('#list_view').slideDown(250);
+                            $('#close_list').fadeIn(500);
+                            $("#map_canvas").css("left", "250px");
+                        });
+
+                    }
 
                 }
+
             }
         });
     } else {
@@ -422,20 +460,20 @@ $(function () {
         'type': 'iframe'
     });
 
-    // checkboxes
+    // radio selection
     $(".vc").click(function () {
         // first make sure at least one is checked
-        if ($("input:checkbox[name=mfs]:checked").length == 0) {
-            alert("You must have at least one medical_facility option selected.");
+        if ($("input:radio[name=mfs]:checked").length == 0) {
+            alert("You must have at least one medical facility option selected.");
             return false;
         }
         // get all checked medical_facilities to update the query
-        medical_facilities = "";
-        $("input:checkbox[name=mfs]:checked").each(function () {
-            if (medical_facilities) {
-                medical_facilities += ",";
+        medical_facility_categories = "";
+        $("input:radio[name=mfs]:checked").each(function () {
+            if (medical_facility_categories) {
+                medical_facility_categories += ",";
             }
-            medical_facilities += $(this).val();
+            medical_facility_categories += $(this).val();
         });
         serve_map(lat, lon, locname, '', 'true');
     });

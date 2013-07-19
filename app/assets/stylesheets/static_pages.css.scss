@@ -578,14 +578,10 @@ select:focus, select:hover, select:active, #search input:focus, #search input:ho
   color: #0068A6 !important;
 }
 
-#search_form input[type="checkbox"], #search_form_rec input[type="checkbox"]
+#search_form input[type="radio"], #search_form_rec input[type="radio"]
 {
-  position: absolute;
-  opacity: 0;
-  height: 13px;
-  width: 13px;
-  border: 0px;
-  padding: 0px;
+  position: relative;
+  margin-right: 5px;
 }
 
 .ie7 #search_form_rec label, .ie8 #search_form_rec label, .ie7 #hmalerts label, .ie8 #hmalerts label, .ie7 #search_form li label, .ie8 #search_form li label /* for ie7 and ie8 */
